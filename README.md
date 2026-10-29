@@ -1,4 +1,5 @@
-# 非递归的基于LL(1)语法分析器 Non-recursive LL(1) Parser for Expression Grammar
+# 非递归的基于LL(1)语法分析器 
+# Non-recursive LL(1) Parser for Expression Grammar
 
 本目录实现了一个基于预测分析表的非递归 LL(1) 表达式语法分析器。程序先进行词法分析，再使用显式分析栈完成自顶向下语法分析。完整版还会构造并输出分析树（Parse Tree）。
 
