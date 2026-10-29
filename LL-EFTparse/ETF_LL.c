@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <ctype.h>
+#include <stdlib.h>
 #include <string.h>
 #include "TESTscan.c"
 
@@ -32,10 +33,10 @@ struct tree *createNode(char *symbol) {
 }
 
 
-// char includes ID, +, *, (, ), $
+// char includes ID, NUM, +, *, (, ), $
 char *stack[1024];
 
-// E, E', T, T', F, +, *, (, ), id, $
+// E, E', T, T', F, +, *, (, ), ID, NUM, $
 int LLparsing(int es){
     int cnt = 0;
     int top = 0;
@@ -53,7 +54,7 @@ int LLparsing(int es){
             else if (strcmp(chartype, "*")==0){
                 es=1;
             }
-            else if (strcmp(chartype, "ID")==0){
+            else if (strcmp(chartype, "ID")==0 || strcmp(chartype, "NUM")==0){
                 stack[top]="E\'";
                 stack[++top]="T";
                 p->left = createNode("T");
@@ -108,7 +109,7 @@ int LLparsing(int es){
             else if (strcmp(chartype, "*")==0){
                 es=1;
             }
-            else if (strcmp(chartype, "ID")==0){
+            else if (strcmp(chartype, "ID")==0 || strcmp(chartype, "NUM")==0){
                 stack[top]="T\'";
                 stack[++top]="F";
             }
@@ -159,6 +160,9 @@ int LLparsing(int es){
             }
             else if (strcmp(chartype, "ID")==0){
                 stack[top]="ID";
+            }
+            else if (strcmp(chartype, "NUM")==0){
+                stack[top]="NUM";
             }
             else if (strcmp(chartype, "(")==0){
                 stack[top]=")";

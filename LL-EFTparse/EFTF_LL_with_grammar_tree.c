@@ -59,11 +59,11 @@ void freeTree(struct tree *node) {
 }
 
 
-// char includes ID, +, *, (, ), $
+// char includes ID, NUM, +, *, (, ), $
 char *stack[1024];
 struct tree *treeStack[1024];
 
-// E, E', T, T', F, +, *, (, ), id, $
+// E, E', T, T', F, +, *, (, ), ID, NUM, $
 int LLparsing(int es, struct tree **rootOut){
     int cnt = 0;
     int top = 0;
@@ -90,7 +90,7 @@ int LLparsing(int es, struct tree **rootOut){
             else if (strcmp(chartype, "*")==0){
                 es=1;
             }
-            else if (strcmp(chartype, "ID")==0){
+            else if (strcmp(chartype, "ID")==0 || strcmp(chartype, "NUM")==0){
                 struct tree *tNode = createNode("T");
                 struct tree *ePrimeNode = createNode("E'");
                 if (tNode == NULL || ePrimeNode == NULL) {
@@ -178,7 +178,7 @@ int LLparsing(int es, struct tree **rootOut){
             else if (strcmp(chartype, "*")==0){
                 es=1;
             }
-            else if (strcmp(chartype, "ID")==0){
+            else if (strcmp(chartype, "ID")==0 || strcmp(chartype, "NUM")==0){
                 struct tree *fNode = createNode("F");
                 struct tree *tPrimeNode = createNode("T'");
                 if (fNode == NULL || tPrimeNode == NULL) {
@@ -276,6 +276,16 @@ int LLparsing(int es, struct tree **rootOut){
                 p->left=idNode;
                 stack[top]="ID";
                 treeStack[top]=idNode;
+            }
+            else if (strcmp(chartype, "NUM")==0){
+                struct tree *numNode = createNode("NUM");
+                if (numNode == NULL) {
+                    es=1;
+                    break;
+                }
+                p->left=numNode;
+                stack[top]="NUM";
+                treeStack[top]=numNode;
             }
             else if (strcmp(chartype, "(")==0){
                 struct tree *leftParenNode = createNode("(");
