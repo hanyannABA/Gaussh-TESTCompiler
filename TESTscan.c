@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 #define KeywordSum 8
 
 char *keyword[KeywordSum] = {"if", "else", "while", "for", "do", "int", "read", "write"};
@@ -40,7 +41,7 @@ int TESTscan(char *filename){
             line++;
         }
         if (token.value[idx] == EOF) {
-            return 0;
+            break;
         }
         if (isspace(token.value[idx])) {
             if (idx!=0){
@@ -137,6 +138,12 @@ int TESTscan(char *filename){
             cnt=0; idx=0;
             return 1;
         }
+    }
+    if (cnt<255) {
+        strcpy(token.type, "$");
+        strcpy(token.value, "$");
+        Scanout[cnt++] = token;
+        TESTout(token);
     }
 
     fclose(file);
